@@ -49,7 +49,7 @@ void doseq(char *msg, char *buf, int len){
 
 
 void usage(char *prog) {
-	fprintf(stderr, "usage: %s\n\t[-d(efault: f=145.5;Filter=1,1,1;Squelch=1)]\n\t[-c(connect)]\n\t[-f<Freq>]\n\t[-s<SquelchLevel:0-8>]\n\t[-b<BandWidth:0=12.5k,1=25k>]\n\t[-v<Volume:1-8>]\n\t[-r(get RSSI)]\n\t[-i(set filter)]\n", prog);
+	fprintf(stderr, "usage: %s\n\t[-d(efault: f=145.5;Filter=1,1,1;Squelch=1)]\n\t[-c(connect)]\n\t[-f<Rx-Freq>]\n\t[-S<Tx-Freq>]\n\t[-s<SquelchLevel:0-8>]\n\t[-b<BandWidth:0=12.5k,1=25k>]\n\t[-v<Volume:1-8>]\n\t[-r(get RSSI)]\n\t[-i(set filter)]\n", prog);
 }
 
 
