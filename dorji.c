@@ -49,7 +49,7 @@ void doseq(char *msg, char *buf, int len){
 
 
 void usage(char *prog) {
-	fprintf(stderr, "usage: %s\n\t[-d(efault: f=145.5;Filter=1,1,1;Squelch=1)]\n\t[-c(connect)]\n\t[-f<Rx-Freq>]\n\t[-S<Tx-Freq>]\n\t[-s<SquelchLevel:0-8>]\n\t[-b<BandWidth:0=12.5k,1=25k>]\n\t[-v<Volume:1-8>]\n\t[-r(get RSSI)]\n\t[-i(set filter)]\n", prog);
+	fprintf(stderr, "usage: %s\n\t[-d(efault: f=145.5;Filter=1,1,1;Squelch=1)]\n\t[-c(connect)]\n\t[-f<Rx-Freq>]\n\t[-F<Tx-Freq>]\n\t[-s<SquelchLevel:0-8>]\n\t[-b<BandWidth:0=12.5k,1=25k>]\n\t[-v<Volume:1-8>]\n\t[-r(get RSSI)]\n\t[-i(set filter)]\n\t[-S<Scan Freq>]\n", prog);
 }
 
 
@@ -59,10 +59,10 @@ char read_buf[256];
 char cmd_buf[256];
 char *filter;
 int opt, squelch = 1, volume=8, bw = 0;
-float freq = 145.5, sfreq = 0.0;
+float freq = 145.5, tfreq = 0.0, sfreq = 0.0;
 int get_rssi = 0, do_freq = 0, do_sfreq = 0, do_filter = 0, do_volume = 0, do_connect = 0;
 
-	while ((opt = getopt (argc, argv, "f:s:v:b:i:rcS:d")) != -1) {
+	while ((opt = getopt (argc, argv, "f:F:s:v:b:i:rcS:d")) != -1) {
 		switch (opt) {
 			case 'd': // default
 				freq = 145.5;
@@ -78,7 +78,16 @@ int get_rssi = 0, do_freq = 0, do_sfreq = 0, do_filter = 0, do_volume = 0, do_co
 				if ( freq != 0.0 ) {
 					do_freq = 1;
 				} else {
-					fprintf(stderr, "%s: -f <Freqency> wrong\n", argv[0] );
+					fprintf(stderr, "%s: -f <Freqency> wrong: %s\n", argv[0], optarg );
+					exit(1);
+				}
+				break;
+
+			case 'F':
+				if ( optarg != NULL )
+					tfreq = atof(optarg);
+				if ( tfreq == 0.0 ) {
+					fprintf(stderr, "%s: -F <Freqency> wrong: %s\n", argv[0], optarg );
 					exit(1);
 				}
 				break;
@@ -168,7 +177,9 @@ int get_rssi = 0, do_freq = 0, do_sfreq = 0, do_filter = 0, do_volume = 0, do_co
 		doseq("AT+DMOCONNECT", read_buf, sizeof(read_buf));
 
 	if ( do_freq ) {
-		sprintf(cmd_buf, "AT+DMOSETGROUP=%d,%.4f,%.4f,0000,%d,0000", bw, freq, freq, squelch);
+		if ( tfreq == 0.0 )
+			tfreq = freq;
+		sprintf(cmd_buf, "AT+DMOSETGROUP=%d,%.4f,%.4f,0000,%d,0000", bw, freq, tfreq, squelch);
 		doseq(cmd_buf, read_buf, sizeof(read_buf));
 	}
 
