@@ -49,7 +49,7 @@ void doseq(char *msg, char *buf, int len){
 
 
 void usage(char *prog) {
-	fprintf(stderr, "usage: %s [-d(f=145.5;Filter=1,1,1;Squelch=1)] [-c(connect)] [-f<Freq>] [-s<SquelchLevel:0-8>] [-b<BandWidth:0=12.5k,1=25k>] [-v<Volume:1-8>] [-r(get RSSI)] [-i(set filter)]\n", prog);
+	fprintf(stderr, "usage: %s\n\t[-d(efault: f=145.5;Filter=1,1,1;Squelch=1)]\n\t[-c(connect)]\n\t[-f<Freq>]\n\t[-s<SquelchLevel:0-8>]\n\t[-b<BandWidth:0=12.5k,1=25k>]\n\t[-v<Volume:1-8>]\n\t[-r(get RSSI)]\n\t[-i(set filter)]\n", prog);
 }
 
 
@@ -123,7 +123,7 @@ int get_rssi = 0, do_freq = 0, do_sfreq = 0, do_filter = 0, do_volume = 0, do_co
 
 		    	default:           /* '?' */
 				usage (argv[0]);
-				fprintf (stderr, "got opt=%c 0x%02x, optarg=%s\n", opt, opt, optarg);
+				// fprintf (stderr, "got opt=%c 0x%02x, optarg=%s\n", opt, opt, optarg);
 				exit (EXIT_FAILURE);
 		}
 	}
