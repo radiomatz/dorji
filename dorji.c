@@ -68,7 +68,7 @@ int get_rssi = 0, do_freq = 0, do_sfreq = 0, do_filter = 0, do_volume = 0, do_co
 				freq = 145.5;
 				squelch = 1;
 				do_freq = 1;
-				filter = "1,1,1";
+				filter = "0,0,0";
 				do_filter = 1;
 				break;
 
